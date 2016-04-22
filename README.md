@@ -6,9 +6,9 @@ As they say, render once then cache.  A `UIWebView` is a bit of a black box, and
 
 This class is a little dirty in its approach, but at least it's self-contained.  That's all we as programmers can ask of anything smelly...
 
-`HSHTMLImageRenderer` wraps an NSOperationQueue and has NSOperations that take care of all the work.  Unfortunately it can't all be done in the background because `UIKit` classes need to have their methods called from the main thread.  So the actual method call of generating an image of the `UIWebView` is done on the main thread.  You may need to find a good strategy for generating this cached content.  You can't avoid the performance hit, but you CAN minimize it.
+`HSHTMLImageRenderer` wraps an `NSOperationQueue` and has `NSOperation`s that take care of all the work.  Unfortunately it can't all be done in the background because `UIKit` classes need to have their methods called from the main thread.  So the actual method call of generating an image of the `UIWebView` is done on the main thread.  You may need to find a good strategy for generating this cached content.  You can't avoid the performance hit, but you CAN minimize it.  This class has a `suspended` property that wraps that same property on the `NSOperationQueue`.  Consider setting this to `YES` when you are scrolling through a `UITableView` or `UICollectionView` for a massively improved user experience.
 
-If you use Core Data, it could also make sense to add a transient property on the data model that provided the html content that you want to render.  You'll have to play with that.  Ultimately the images are in a `NSCache` against the `identifier` property as a key.
+Ultimately the images are in a `NSCache` against the `identifier` property as a key.
 
 Have a look at `ViewController.m` to get an idea of how to use the class.
 
@@ -17,6 +17,33 @@ The hacky part of this is that we use a `UIWebView`, but in order for it to rend
 ## Installation
 
 This isn't meant to be a Library.  There is no Cocoapod, nor will there be.  It's an approach.  Your specific needs will be different, so it offers a starting point.  To see how it's done, but it's up to you to extend the functionality for your project's needs.  You'll find I've provided arguments for each method that actually have in this implementation one possible value.  The idea is that the stub is there... you just have to add to it.
+
+## On Performance...
+
+Because it uses the main thread to render the content, this often conflicts with the queueing systems of `UITableView` and `UICollectionView` who will often call `-cellFor(Row/Item)AtIndexPath:` while you are scrolling, which will mean in most cases you'll want to populate that cell, in which case you'll make a call to the renderer, then you're left with a big party on the main thread and the UI turns into to a slow, jittery mess.
+
+I've found that putting this in your `UIViewController` subclass (or whichever class is your `UIScrollViewDelegate` of the table or collection view), is what makes your UI happy again.
+
+```
+#pragma mark - ScrollView Delegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+  if (scrollView.isTracking) {
+    [[HSHTMLImageRenderer rendererInWindow:self.view.window] setSuspended:YES];
+  }
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+{
+  [[HSHTMLImageRenderer rendererInWindow:self.view.window] setSuspended:NO];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+  [[HSHTMLImageRenderer rendererInWindow:self.view.window] setSuspended:NO];
+}
+```
 
 ## License
 
