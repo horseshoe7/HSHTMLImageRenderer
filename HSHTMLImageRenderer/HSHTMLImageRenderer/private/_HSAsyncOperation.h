@@ -2,6 +2,7 @@
 //  HSOperation.h
 //  HSHTMLImageRenderer
 //
+//  Open-sourced with permission from qLearning Applications GmbH
 //  Created by Stephen O'Connor on 12/04/16.
 //  MIT License.  Hack away!
 //

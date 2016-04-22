@@ -2,6 +2,7 @@
 //  HSHTMLImageRenderer.h
 //  HSHTMLImageRenderer
 //
+//  Open-sourced with permission from qLearning Applications GmbH
 //  Created by Stephen O'Connor on 12/04/16.
 //  MIT License.  Hack away!
 //
@@ -50,6 +51,8 @@ static BOOL const HSHTMLImageRendererWriteHTMLToDisk = NO;  // will write the te
 + (instancetype)rendererInWindow:(UIWindow*)window;  // call this the first time
 + (instancetype)renderer;  // convenience
 
+@property (nonatomic, assign, getter=isSuspended) BOOL suspended;  // this wraps the same property of a NSOperationQueue.  You typically set this to yes when you are using a scrollView.
+
 // uses all the defaults
 - (void)renderHTML:(NSString*)html
         identifier:(NSString*)identifier /* similar to a URL.  Ultimately a cache key */
@@ -61,6 +64,7 @@ static BOOL const HSHTMLImageRendererWriteHTMLToDisk = NO;  // will write the te
         attributes:(NSDictionary*)attributes
         completion:(void(^)(NSString *identifier, UIImage *image, BOOL cachedImage, NSError *error))completion;
 
+// completion is called immediately if the image is found in the cache.  
 - (void)renderHTML:(NSString*)html
         identifier:(NSString*)identifier /* similar to a URL.  Ultimately a cache key */
             intent:(HSHTMLImageRenderingIntent)intent
@@ -69,6 +73,6 @@ ignoreCachedResult:(BOOL)ignoreCache
  shouldCacheResult:(BOOL)cacheResult
         completion:(void(^)(NSString *identifier, UIImage *image, BOOL cachedImage, NSError *error))completion;
 
-+ (void)finishRendering;  // will clean up and release some resources.  IF there was even an instance in the first place!
++ (BOOL)finishRendering;  // will clean up and release some resources.  IF there was even an instance in the first place!
 
 @end

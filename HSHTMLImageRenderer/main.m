@@ -2,9 +2,11 @@
 //  main.m
 //  HSHTMLImageRenderer
 //
+//  Open-sourced with permission from qLearning Applications GmbH
 //  Created by Stephen O'Connor on 15/04/16.
-//  Copyright © 2016 Software Barn. All rights reserved.
+//  MIT License.  
 //
+
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"

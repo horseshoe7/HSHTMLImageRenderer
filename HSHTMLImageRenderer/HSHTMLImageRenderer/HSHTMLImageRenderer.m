@@ -2,6 +2,7 @@
 //  HSHTMLImageRenderer.m
 //  HSHTMLImageRenderer
 //
+//  Open-sourced with permission from qLearning Applications GmbH
 //  Created by Stephen O'Connor on 12/04/16.
 //  MIT License.  Hack away!
 //
@@ -95,6 +96,17 @@ static HSHTMLImageRenderer *sharedInstance = nil;
     
 }
 
+- (BOOL)isSuspended
+{
+    return self.jobQueue.isSuspended;
+}
+
+- (void)setSuspended:(BOOL)suspended
+{
+    //NSLog(@"setSuspended: %@", NSStringFromBOOL(suspended));
+    self.jobQueue.suspended = suspended;
+}
+
 - (_HSRenderingWebView*)webView
 {
     if (!_webView) {
@@ -118,10 +130,17 @@ static HSHTMLImageRenderer *sharedInstance = nil;
     }
 }
 
-- (void)finishRendering
+- (BOOL)finishRendering
 {
+    if (self.jobQueue.operationCount > 0) {
+        NSLog(@"Fail!  You should only call this after all your rendering jobs are finished!");
+        return NO;
+    }
+    
     [_webView removeFromSuperview];
     [NSString HS_finishUsingTemplates];
+    
+    return YES;
 }
 
 #pragma mark - Public Methods

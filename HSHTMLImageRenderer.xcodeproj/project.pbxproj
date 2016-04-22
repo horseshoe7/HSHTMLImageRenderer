@@ -46,6 +46,7 @@
 		DCD61A341CC16E0D00885E4A /* _HSRenderingWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _HSRenderingWebView.h; sourceTree = "<group>"; };
 		DCD61A351CC16E0D00885E4A /* _HSRenderingWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _HSRenderingWebView.m; sourceTree = "<group>"; };
 		DCD61A371CC16E0D00885E4A /* default_template.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = default_template.html; sourceTree = "<group>"; };
+		DCD61A3F1CC1792600885E4A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +63,7 @@
 		DCD619EE1CC1577300885E4A = {
 			isa = PBXGroup;
 			children = (
+				DCD61A3F1CC1792600885E4A /* README.md */,
 				DCD619F91CC1577300885E4A /* HSHTMLImageRenderer */,
 				DCD619F81CC1577300885E4A /* Products */,
 			);
@@ -103,9 +105,9 @@
 		DCD61A271CC16E0D00885E4A /* HSHTMLImageRenderer */ = {
 			isa = PBXGroup;
 			children = (
-				DCD61A281CC16E0D00885E4A /* Helpers */,
 				DCD61A2D1CC16E0D00885E4A /* HSHTMLImageRenderer.h */,
 				DCD61A2E1CC16E0D00885E4A /* HSHTMLImageRenderer.m */,
+				DCD61A281CC16E0D00885E4A /* Helpers */,
 				DCD61A2F1CC16E0D00885E4A /* Private */,
 				DCD61A361CC16E0D00885E4A /* Resources */,
 			);
