@@ -138,6 +138,7 @@ static HSHTMLImageRenderer *sharedInstance = nil;
     }
     
     [_webView removeFromSuperview];
+    _webView = nil;
     [NSString HS_finishUsingTemplates];
     
     return YES;
